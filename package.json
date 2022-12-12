@@ -1,0 +1,29 @@
+{
+  "name": "graphql-event",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bgebes/graphql-event.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bgebes/graphql-event/issues"
+  },
+  "homepage": "https://github.com/bgebes/graphql-event#readme",
+  "dependencies": {
+    "apollo-server": "^3.11.1",
+    "apollo-server-core": "^3.11.1",
+    "graphql": "^16.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
