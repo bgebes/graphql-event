@@ -38,18 +38,32 @@ const typeDefs = gql`
 
   type Query {
     events: [Event!]!
+    event(id: ID!): Event!
+
     locations: [Location!]!
+    location(id: ID!): Location!
+
     users: [User!]!
+    user(id: ID!): User!
+
     participants: [Participant!]!
+    participant(id: ID!): Participant!
   }
 `;
 
 const resolvers = {
   Query: {
     events: () => events,
+    event: (_, args) => events.find((e) => e.id == args.id),
+
     locations: () => locations,
+    location: (_, args) => locations.find((l) => l.id == args.id),
+
     users: () => users,
+    user: (_, args) => users.find((u) => u.id == args.id),
+
     participants: () => participants,
+    participant: (_, args) => participants.find((p) => p.id == args.id),
   },
 };
 
