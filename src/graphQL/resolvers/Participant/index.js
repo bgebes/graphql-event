@@ -1,29 +1,27 @@
-import MockData from '../../../assets/json/data.json' assert { type: 'json' };
-const { events, users, participants } = MockData;
-
 export const Participant = {
-  user: (parent) => users.find((u) => u.id == parent.user_id),
-  event: (parent) => events.find((e) => e.id == parent.event_id),
+  user: (parent, _, { db }) => db.users.find((u) => u.id == parent.user_id),
+  event: (parent, _, { db }) => db.events.find((e) => e.id == parent.event_id),
 };
 
 export const participantQueries = {
-  participants: () => participants,
-  participant: (_, args) => participants.find((p) => p.id == args.id),
+  participants: (_, __, { db }) => db.participants,
+  participant: (_, args, { db }) =>
+    db.participants.find((p) => p.id == args.id),
 };
 
 export const participantMutations = {
-  addParticipant: (_, { data }, { pubsub }) => {
-    let lastID = participants.at(-1).id ?? -1;
+  addParticipant: (_, { data }, { pubsub, db }) => {
+    let lastID = db.participants.at(-1).id ?? -1;
 
     const newParticipant = { id: lastID + 1, ...data };
 
-    participants.push(newParticipant);
+    db.participants.push(newParticipant);
     pubsub.publish('participantAdded', newParticipant);
 
     return newParticipant;
   },
-  updateParticipant: (_, { id, data }) => {
-    const selected_index = participants.findIndex(
+  updateParticipant: (_, { id, data }, { db }) => {
+    const selected_index = db.participants.findIndex(
       (participant) => participant.id == id
     );
 
@@ -31,14 +29,14 @@ export const participantMutations = {
       throw new Error('Participant not found!');
     }
 
-    const participant = participants[selected_index];
+    const participant = db.participants[selected_index];
     const updatedState = { ...participant, ...data };
 
-    location[selected_index] = updatedState;
+    db.participants[selected_index] = updatedState;
     return updatedState;
   },
-  deleteParticipant: (_, { id }) => {
-    const participant_index = participants.findIndex(
+  deleteParticipant: (_, { id }, { db }) => {
+    const participant_index = db.participants.findIndex(
       (participant) => participant.id == id
     );
 
@@ -46,14 +44,14 @@ export const participantMutations = {
       throw new Error('Participant not found!');
     }
 
-    const participant = participants[participant_index];
+    const participant = db.participants[participant_index];
 
-    participants.splice(participant_index, 1);
+    db.participants.splice(participant_index, 1);
     return participant;
   },
-  deleteAllParticipants: () => {
-    const count = participants.length;
-    participants.splice(0, count);
+  deleteAllParticipants: (_, __, { db }) => {
+    const count = db.participants.length;
+    db.participants.splice(0, count);
 
     return { count };
   },

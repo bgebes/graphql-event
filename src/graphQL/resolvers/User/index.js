@@ -1,50 +1,47 @@
-import MockData from '../../../assets/json/data.json' assert { type: 'json' };
-const { users } = MockData;
-
 export const userQueries = {
-  users: () => users,
-  user: (_, args) => users.find((u) => u.id == args.id),
+  users: (_, __, { db }) => db.users,
+  user: (_, args, { db }) => db.users.find((u) => u.id == args.id),
 };
 
 export const userMutations = {
-  addUser: (_, { data }, { pubsub }) => {
-    let lastID = users.at(-1).id ?? -1;
+  addUser: (_, { data }, { pubsub, db }) => {
+    let lastID = db.users.at(-1).id ?? -1;
 
     const newUser = { id: lastID + 1, ...data };
 
-    users.push(newUser);
+    db.users.push(newUser);
     pubsub.publish('userCreated', newUser);
 
     return newUser;
   },
-  updateUser: (_, { id, data }) => {
-    const selected_index = users.findIndex((user) => user.id == id);
+  updateUser: (_, { id, data }, { db }) => {
+    const selected_index = db.users.findIndex((user) => user.id == id);
 
     if (selected_index == -1) {
       throw new Error('User not found!');
     }
 
-    const user = users[selected_index];
+    const user = db.users[selected_index];
     const updatedState = { ...user, ...data };
 
-    users[selected_index] = updatedState;
+    db.users[selected_index] = updatedState;
     return updatedState;
   },
-  deleteUser: (_, { id }) => {
-    const user_index = users.findIndex((user) => user.id == id);
+  deleteUser: (_, { id }, { db }) => {
+    const user_index = db.users.findIndex((user) => user.id == id);
 
     if (user_index == -1) {
       throw new Error('User not found!');
     }
 
-    const user = users[user_index];
+    const user = db.users[user_index];
 
-    users.splice(user_index, 1);
+    db.users.splice(user_index, 1);
     return user;
   },
-  deleteAllUsers: () => {
-    const count = users.length;
-    users.splice(0, count);
+  deleteAllUsers: (_, __, { db }) => {
+    const count = db.users.length;
+    db.users.splice(0, count);
 
     return { count };
   },
