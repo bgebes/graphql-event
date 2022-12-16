@@ -13,12 +13,14 @@ export const eventQueries = {
 };
 
 export const eventMutations = {
-  addEvent: (_, { data }) => {
+  addEvent: (_, { data }, { pubsub }) => {
     let lastID = events.at(-1).id ?? -1;
 
     const newEvent = { id: lastID + 1, ...data, participants: [] };
 
     events.push(newEvent);
+    pubsub.publish('eventCreated', newEvent);
+
     return newEvent;
   },
   updateEvent: (_, { id, data }) => {
@@ -51,5 +53,12 @@ export const eventMutations = {
     events.splice(0, count);
 
     return { count };
+  },
+};
+
+export const eventSubscriptions = {
+  eventCreated: {
+    subscribe: (_, __, { pubsub }) => pubsub.subscribe('eventCreated'),
+    resolve: (payload) => payload,
   },
 };

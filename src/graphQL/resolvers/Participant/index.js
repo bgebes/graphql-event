@@ -12,12 +12,14 @@ export const participantQueries = {
 };
 
 export const participantMutations = {
-  addParticipant: (_, { data }) => {
+  addParticipant: (_, { data }, { pubsub }) => {
     let lastID = participants.at(-1).id ?? -1;
 
     const newParticipant = { id: lastID + 1, ...data };
 
     participants.push(newParticipant);
+    pubsub.publish('participantAdded', newParticipant);
+
     return newParticipant;
   },
   updateParticipant: (_, { id, data }) => {
@@ -54,5 +56,12 @@ export const participantMutations = {
     participants.splice(0, count);
 
     return { count };
+  },
+};
+
+export const participantSubscriptions = {
+  participantAdded: {
+    subscribe: (_, __, { pubsub }) => pubsub.subscribe('participantAdded'),
+    resolve: (payload) => payload,
   },
 };

@@ -7,12 +7,14 @@ export const userQueries = {
 };
 
 export const userMutations = {
-  addUser: (_, { data }) => {
+  addUser: (_, { data }, { pubsub }) => {
     let lastID = users.at(-1).id ?? -1;
 
     const newUser = { id: lastID + 1, ...data };
 
     users.push(newUser);
+    pubsub.publish('userCreated', newUser);
+
     return newUser;
   },
   updateUser: (_, { id, data }) => {
@@ -45,5 +47,12 @@ export const userMutations = {
     users.splice(0, count);
 
     return { count };
+  },
+};
+
+export const userSubscriptions = {
+  userCreated: {
+    subscribe: (_, __, { pubsub }) => pubsub.subscribe('userCreaxted'),
+    resolve: (payload) => payload,
   },
 };

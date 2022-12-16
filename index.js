@@ -1,18 +1,11 @@
-import { ApolloServer } from 'apollo-server';
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { typeDefs } from './src/graphQL/schema/index.js';
-import { resolvers } from './src/graphQL/resolvers/index.js';
+import { createServer } from 'node:http';
+import { createPubSub, createYoga } from 'graphql-yoga';
+import { schema } from './src/graphQL/index.js';
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  plugins: [
-    ApolloServerPluginLandingPageGraphQLPlayground({
-      // Options
-    }),
-  ],
-});
+const pubsub = createPubSub();
+const yoga = createYoga({ schema, context: { pubsub }, plugins: [] });
+const server = createServer(yoga);
 
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+server.listen(4000, () => {
+  console.info('Server is running on http://localhost:4000/graphql');
 });

@@ -37,3 +37,9 @@ input updateEventInput {
     user_id: ID
 }
 `;
+
+export const eventSubscriptionType = `
+eventCreated: Event!
+eventUpdated: Event!
+eventDeleted: Event!
+`;

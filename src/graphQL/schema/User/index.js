@@ -19,3 +19,9 @@ input updateUserInput {
     email: String
 }
 `;
+
+export const userSubscriptionType = `
+userCreated: User!
+userUpdated: User!
+userDeleted: User!
+`;

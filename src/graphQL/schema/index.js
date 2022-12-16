@@ -12,6 +12,7 @@ import {
 } from './Participant/index.js';
 import { query } from './_Query_/index.js';
 import { mutation } from './_Mutation_/index.js';
+import { subscription } from './_Subscription_/index.js';
 
 export const typeDefs = `
   # Event
@@ -44,4 +45,5 @@ export const typeDefs = `
 
   ${query}
   ${mutation}
+  ${subscription}
 `;

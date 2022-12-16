@@ -21,3 +21,9 @@ input updateParticipantInput {
     event_id: ID
 }
 `;
+
+export const participantSubscriptionType = `
+participantAdded: Participant!
+participantUpdated: Participant!
+participantDeleted: Participant!
+`;

@@ -19,9 +19,8 @@
   },
   "homepage": "https://github.com/bgebes/graphql-event#readme",
   "dependencies": {
-    "apollo-server": "^3.11.1",
-    "apollo-server-core": "^3.11.1",
-    "graphql": "^16.6.0"
+    "graphql": "^16.6.0",
+    "graphql-yoga": "^3.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

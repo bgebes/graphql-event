@@ -25,3 +25,9 @@ input updateLocationInput {
     lng: Float
 }
 `;
+
+export const locationSubscriptionType = `
+locationCreated: Location!
+locationUpdated: Location!
+locationDeleted: Location!
+`;
