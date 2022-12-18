@@ -1,9 +1,9 @@
-export const locationQueries = {
+const Query = {
   locations: (_, __, { db }) => db.locations,
   location: (_, args, { db }) => db.locations.find((l) => l.id == args.id),
 };
 
-export const locationMutations = {
+const Mutation = {
   addLocation: (_, { data }, { db }) => {
     let lastID = db.locations.at(-1).id ?? -1;
 
@@ -48,3 +48,5 @@ export const locationMutations = {
     return { count };
   },
 };
+
+module.exports = { Query, Mutation };

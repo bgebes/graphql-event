@@ -1,17 +1,9 @@
-export const Event = {
-  user: (parent, _, { db }) => db.users.find((u) => u.id == parent.user_id),
-  location: (parent, _, { db }) =>
-    db.locations.find((l) => l.id == parent.location_id),
-  participants: (parent, _, { db }) =>
-    db.participants.filter((p) => p.event_id == parent.id),
-};
-
-export const eventQueries = {
+const Query = {
   events: (_, __, { db }) => db.events,
   event: (_, args, { db }) => db.events.find((e) => e.id == args.id),
 };
 
-export const eventMutations = {
+const Mutation = {
   addEvent: (_, { data }, { pubsub, db }) => {
     let lastID = db.events.at(-1).id ?? -1;
 
@@ -55,9 +47,19 @@ export const eventMutations = {
   },
 };
 
-export const eventSubscriptions = {
+const Subscription = {
   eventCreated: {
     subscribe: (_, __, { pubsub }) => pubsub.subscribe('eventCreated'),
     resolve: (payload) => payload,
   },
 };
+
+const Event = {
+  user: (parent, _, { db }) => db.users.find((u) => u.id == parent.user_id),
+  location: (parent, _, { db }) =>
+    db.locations.find((l) => l.id == parent.location_id),
+  participants: (parent, _, { db }) =>
+    db.participants.filter((p) => p.event_id == parent.id),
+};
+
+module.exports = { Query, Mutation, Subscription, Event };

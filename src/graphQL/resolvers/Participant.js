@@ -1,15 +1,15 @@
-export const Participant = {
+const Participant = {
   user: (parent, _, { db }) => db.users.find((u) => u.id == parent.user_id),
   event: (parent, _, { db }) => db.events.find((e) => e.id == parent.event_id),
 };
 
-export const participantQueries = {
+const Query = {
   participants: (_, __, { db }) => db.participants,
   participant: (_, args, { db }) =>
     db.participants.find((p) => p.id == args.id),
 };
 
-export const participantMutations = {
+const Mutation = {
   addParticipant: (_, { data }, { pubsub, db }) => {
     let lastID = db.participants.at(-1).id ?? -1;
 
@@ -57,9 +57,11 @@ export const participantMutations = {
   },
 };
 
-export const participantSubscriptions = {
+const Subscription = {
   participantAdded: {
     subscribe: (_, __, { pubsub }) => pubsub.subscribe('participantAdded'),
     resolve: (payload) => payload,
   },
 };
+
+module.exports = { Query, Mutation, Subscription, Participant };

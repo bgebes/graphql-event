@@ -1,9 +1,9 @@
-export const userQueries = {
+const Query = {
   users: (_, __, { db }) => db.users,
   user: (_, args, { db }) => db.users.find((u) => u.id == args.id),
 };
 
-export const userMutations = {
+const Mutation = {
   addUser: (_, { data }, { pubsub, db }) => {
     let lastID = db.users.at(-1).id ?? -1;
 
@@ -47,9 +47,11 @@ export const userMutations = {
   },
 };
 
-export const userSubscriptions = {
+const Subscription = {
   userCreated: {
     subscribe: (_, __, { pubsub }) => pubsub.subscribe('userCreaxted'),
     resolve: (payload) => payload,
   },
 };
+
+module.exports = { Query, Mutation, Subscription };
