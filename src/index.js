@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { createPubSub, createYoga } from 'graphql-yoga';
-import { schema } from './src/graphQL/index.js';
-import db from './src/assets/json/data.json' assert { type: 'json' };
+import { schema } from './graphQL/index.js';
+import db from './assets/json/data.js';
 
 const pubsub = createPubSub();
 const yoga = createYoga({
