@@ -1,29 +1,37 @@
 import React from 'react';
-import { Container } from '@chakra-ui/react';
 import EventListItem from '../EventListItem';
+import { Alert, AlertIcon, Center, Container, Spinner } from '@chakra-ui/react';
+import { getEvents } from '../../actions/actions';
 
 function EventList() {
-  const events = [
-    {
-      title: 'Meteor meet-up',
-      description: 'Discussing all things Meteor',
-      date: '02.09.2018',
-    },
-    {
-      title: 'Meteor - React',
-      description: 'Follow up to build on knowledge of Meteor and React',
-      date: '13.09.2018',
-    },
-    {
-      title: 'CSS',
-      description: 'Coz we need some styling :)',
-      date: '25.09.2018',
-    },
-  ];
+  const { loading, error, data } = getEvents();
+
+  if (loading) {
+    return (
+      <Center>
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Center>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        {error.message}
+      </Alert>
+    );
+  }
 
   return (
     <Container minW="container.md">
-      {events.map((e, i) => {
+      {data.events.map((e, i) => {
         return <EventListItem {...e} key={i} />;
       })}
     </Container>

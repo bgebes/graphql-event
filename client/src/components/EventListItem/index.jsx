@@ -1,17 +1,21 @@
-import { Card, Container, Stack, Text } from '@chakra-ui/react';
+import { Box, Card, Container, Spacer, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 
-function EventListItem({ title, description, date }) {
+function EventListItem({ title, desc, date }) {
   const titleSection = (
     <Stack>
       <Text fontSize="xl" textColor="blackAlpha.800">
         {title}
       </Text>
-      <Text>{description}</Text>
+      <Text>{desc}</Text>
     </Stack>
   );
 
-  const dateSection = <small>{date}</small>;
+  const dateSection = (
+    <Container display="flex" justifyContent="end">
+      <small>{date}</small>
+    </Container>
+  );
 
   return (
     <Card p="4" textColor="blackAlpha.600" fontWeight="semibold">
