@@ -10,3 +10,27 @@ export const GET_EVENTS = gql`
     }
   }
 `;
+
+export const GET_EVENT_BYID = gql`
+  query getEvent($id: ID!) {
+    event(id: $id) {
+      id
+      title
+      desc
+      date
+      user {
+        username
+        email
+      }
+      location {
+        name
+      }
+      participants {
+        user {
+          username
+          email
+        }
+      }
+    }
+  }
+`;

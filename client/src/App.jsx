@@ -1,14 +1,13 @@
-import Header from './components/Header';
-import EventForm from './components/EventForm';
-import EventList from './components/EventList';
+import Home from './pages/home';
+import { Routes, Route } from 'react-router-dom';
+import Details from './pages/details';
 
 function App() {
   return (
-    <>
-      <Header />
-      <EventForm />
-      <EventList />
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/details/:id" element={<Details />} />
+    </Routes>
   );
 }
 

@@ -1,13 +1,14 @@
 import { Box, Card, Container, Spacer, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function EventListItem({ title, desc, date }) {
+function EventListItem({ id, title, desc, date }) {
   const titleSection = (
     <Stack>
-      <Text fontSize="xl" textColor="blackAlpha.800">
+      <Text fontSize="xl" textColor="blackAlpha.800" noOfLines={1}>
         {title}
       </Text>
-      <Text>{desc}</Text>
+      <Text noOfLines={1}>{desc}</Text>
     </Stack>
   );
 
@@ -18,12 +19,14 @@ function EventListItem({ title, desc, date }) {
   );
 
   return (
-    <Card p="4" textColor="blackAlpha.600" fontWeight="semibold">
-      <Stack direction="row" justify="space-between">
-        {titleSection}
-        {dateSection}
-      </Stack>
-    </Card>
+    <Link to={`/details/${id}`}>
+      <Card p="4" textColor="blackAlpha.600" fontWeight="semibold">
+        <Stack direction="row" justify="space-between">
+          {titleSection}
+          {dateSection}
+        </Stack>
+      </Card>
+    </Link>
   );
 }
 
