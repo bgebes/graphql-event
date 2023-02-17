@@ -1,25 +1,33 @@
-import { Button, Container, Input, Stack, Text } from '@chakra-ui/react';
+import { Button, Card, Container, Input, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
+import LocationInput from '../LocationInput';
+import ParticipantsInput from '../ParticipantsInput';
 
 function EventForm() {
   const titleInput = (
     <Container>
       <Text>Title:</Text>
-      <Input placeholder="Enter event title" bgColor="white" />
+      <Card>
+        <Input placeholder="Enter event title" bgColor="white" />
+      </Card>
     </Container>
   );
 
   const descriptionInput = (
     <Container>
       <Text>Description:</Text>
-      <Input placeholder="Enter event description" bgColor="white" />
+      <Card>
+        <Input placeholder="Enter event description" bgColor="white" />
+      </Card>
     </Container>
   );
 
   const dateInput = (
     <Container>
       <Text>Event Date:</Text>
-      <Input bgColor="white" type="date" />
+      <Card>
+        <Input bgColor="white" type="datetime-local" />
+      </Card>
     </Container>
   );
 
@@ -35,6 +43,8 @@ function EventForm() {
         {titleInput}
         {descriptionInput}
         {dateInput}
+        <LocationInput />
+        <ParticipantsInput />
         {addButton}
       </Stack>
     </Container>

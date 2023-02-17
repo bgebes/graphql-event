@@ -34,3 +34,25 @@ export const GET_EVENT_BYID = gql`
     }
   }
 `;
+
+export const GET_USERS = gql`
+  query getUsers {
+    users {
+      id
+      username
+      email
+    }
+  }
+`;
+
+export const GET_LOCATIONS = gql`
+  query getLocations {
+    locations {
+      id
+      name
+      desc
+      lat
+      lng
+    }
+  }
+`;

@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import EventListItem from '../EventListItem';
-import { Alert, AlertIcon, Center, Container, Spinner } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { ADD_EVENT_SUBSCRIPTION } from '../../apollo/subscriptions/subscriptions';
 import { getEvents } from '../../actions/actions';
+import LoadingView from '../LoadingView';
+import ErrorView from '../ErrorView';
 
 function EventList() {
   const { loading, error, data, subscribeToMore } = getEvents();
@@ -25,26 +27,11 @@ function EventList() {
   }, []);
 
   if (loading) {
-    return (
-      <Center>
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-        />
-      </Center>
-    );
+    return <LoadingView />;
   }
 
   if (error) {
-    return (
-      <Alert status="error">
-        <AlertIcon />
-        {error.message}
-      </Alert>
-    );
+    return <ErrorView />;
   }
 
   return (
