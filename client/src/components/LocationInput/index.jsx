@@ -4,8 +4,7 @@ import { getLocations } from '../../actions/actions';
 import ErrorView from '../ErrorView';
 import LoadingView from '../LoadingView';
 
-function LocationInput() {
-  const [selected, setSelected] = useState({});
+function LocationInput({ values, handleChange, handleBlur }) {
   const { loading, error, data } = getLocations();
 
   if (loading) {
@@ -16,15 +15,14 @@ function LocationInput() {
     return <ErrorView />;
   }
 
-  const onSelected = (e) => {
-    const { value } = e.target;
-    const location = data.locations.find((l) => l.id == value);
-
-    setSelected(location);
-  };
-
   const selectView = (
-    <Select placeholder="Select location" onChange={onSelected}>
+    <Select
+      name="location_id"
+      placeholder="Select location"
+      value={values.location_id}
+      onBlur={handleBlur}
+      onChange={handleChange}
+    >
       {data.locations &&
         data.locations.map((location, i) => {
           return (

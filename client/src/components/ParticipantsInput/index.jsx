@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Text,
 } from '@chakra-ui/react';
+import { Field } from 'formik';
 import React, { useState } from 'react';
 import { getUsers } from '../../actions/actions';
 import ErrorView from '../ErrorView';
@@ -26,26 +27,35 @@ function ParticipantsInput() {
     return <ErrorView />;
   }
 
-  const onSelected = (e) => {
+  const onSelected = (e, handleChange) => {
     const { value } = e.target;
     const participant = data.users.find((u) => u.id == value);
 
     setParticipants((state) => [...state, participant]);
+    handleChange('participants', [...participants, participant]);
 
     e.target.value = '';
   };
 
   const selectView = (
-    <Select placeholder="Select participants" onChange={onSelected}>
-      {data.users &&
-        data.users.map((user, i) => {
-          return (
-            <option key={i} value={user.id}>
-              {user.username}
-            </option>
-          );
-        })}
-    </Select>
+    <Field>
+      {({ form }) => (
+        <Select
+          name="participants"
+          placeholder="Select participants"
+          onChange={(e) => onSelected(e, form.setFieldValue)}
+        >
+          {data.users &&
+            data.users.map((user, i) => {
+              return (
+                <option key={i} value={user.id}>
+                  {user.username}
+                </option>
+              );
+            })}
+        </Select>
+      )}
+    </Field>
   );
 
   const SelectedUserView = ({ user }) => {
