@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card, Container, Select, Text } from '@chakra-ui/react';
-import { getLocations } from '../../actions/actions';
+import { getUsers } from '../../actions/actions';
 import ErrorView from '../ErrorView';
 import LoadingView from '../LoadingView';
 
-function LocationInput({ values, handleChange, handleBlur, sendingLoading }) {
-  const { loading, error, data } = getLocations();
+function UserInput({ values, handleChange, handleBlur, sendingLoading }) {
+  const { loading, error, data } = getUsers();
 
   if (loading) {
     return <LoadingView />;
@@ -17,19 +17,19 @@ function LocationInput({ values, handleChange, handleBlur, sendingLoading }) {
 
   const selectView = (
     <Select
-      name="location_id"
-      placeholder="Select location"
-      value={values.location_id}
+      name="user_id"
+      placeholder="Select user"
+      value={values.user_id}
       onBlur={handleBlur}
       onChange={handleChange}
       required
       disabled={sendingLoading}
     >
-      {data.locations &&
-        data.locations.map((location, i) => {
+      {data.users &&
+        data.users.map((user, i) => {
           return (
-            <option key={i} value={location.id}>
-              {location.name}
+            <option key={i} value={user.id}>
+              {user.username}
             </option>
           );
         })}
@@ -38,10 +38,10 @@ function LocationInput({ values, handleChange, handleBlur, sendingLoading }) {
 
   return (
     <Container>
-      <Text>Locations:</Text>
+      <Text>User:</Text>
       <Card bg="white">{selectView}</Card>
     </Container>
   );
 }
 
-export default LocationInput;
+export default UserInput;
